@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "38028529780",
+    "firebase_url": "https://videocall-5a8a0.firebaseio.com",
+    "project_id": "videocall-5a8a0",
+    "storage_bucket": "videocall-5a8a0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38028529780:android:17320404f8f5aa16968121",
+        "android_client_info": {
+          "package_name": "com.hemanth.videocall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "38028529780-v0bttoamlimq1hmqoep9bg1bt2ih40jv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hemanth.videocall",
+            "certificate_hash": "0087527ff874723e470cc1f0a0ce2b307c8933f2"
+          }
+        },
+        {
+          "client_id": "38028529780-lgq45g48k4g18b3mq5ifcc0eprpjfm7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq60CG6wslNnmYSqPbfrm3Ww3S4_eb48s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "38028529780-lgq45g48k4g18b3mq5ifcc0eprpjfm7c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

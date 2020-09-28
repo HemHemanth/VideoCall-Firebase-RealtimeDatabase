@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistrationActivity">
+
+    <TextView
+        android:id="@+id/txtEnterMobileNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Mobile Number"
+        android:textSize="16sp"
+        />
+
+    <EditText
+        android:id="@+id/txtMobileNumber"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/txtEnterMobileNumber"
+        android:layout_marginLeft="10dp"
+        />
+
+        <EditText
+            android:id="@+id/verificationCode"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtMobileNumber"
+            android:layout_toRightOf="@id/txtEnterMobileNumber"
+            android:visibility="gone"
+            />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:layout_toRightOf="@+id/txtEnterMobileNumber"
+        android:layout_below="@id/verificationCode"
+        />
+
+</RelativeLayout>

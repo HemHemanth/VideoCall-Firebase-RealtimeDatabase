@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CallingActivity">
+
+    <ImageView
+        android:id="@+id/userProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/user_profile"
+        android:scaleType="centerCrop"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        >
+        <ImageView
+            android:id="@+id/makeCall"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:src="@drawable/make_call"
+            android:layout_marginRight="60dp"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/rejectCall"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:src="@drawable/reject_call"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="User Name"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/txtCalling"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txtCalling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calling...."
+        android:textSize="20sp"
+        android:layout_above="@id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        />
+
+</RelativeLayout>

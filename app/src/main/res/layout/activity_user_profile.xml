@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserProfileActivity">
+
+    <ImageView
+        android:id="@+id/userProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/user_profile"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/edtUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="User Name"
+        android:textColor="@android:color/white"
+        android:layout_centerInParent="true"
+        />
+
+    <Button
+        android:id="@+id/addFriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Friend"
+        android:layout_below="@id/edtUserName"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="25dp"
+        android:background="@android:color/holo_blue_dark"
+        />
+
+    <Button
+        android:id="@+id/declineFriend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Decline Friend"
+        android:layout_below="@id/addFriend"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginTop="15dp"
+        android:background="@android:color/holo_red_dark"
+        android:visibility="gone"
+        />
+
+</RelativeLayout>
