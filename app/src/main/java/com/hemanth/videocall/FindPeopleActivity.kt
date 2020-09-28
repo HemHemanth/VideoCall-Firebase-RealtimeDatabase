@@ -36,12 +36,8 @@ class FindPeopleActivity: AppCompatActivity() {
             }
 
             override fun onTextChanged(charSec: CharSequence?, start: Int, end: Int, count: Int) {
-                if (search.text.toString() != "") {
-
-                } else {
-                    str = charSec.toString()
-                    onStart()
-                }
+                str = charSec.toString()
+                onStart()
             }
 
             override fun afterTextChanged(e: Editable?) {
