@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -125,15 +126,18 @@ class FindPeopleActivity: AppCompatActivity() {
             var userName: TextView? = null
             var userProfile: ImageView? = null
             var btnVideoCall: Button? = null
+            var btnChat: Button? = null
+            var chatAndCallLayout: LinearLayout? = null
             var userItemView: CardView? = null
 
             init {
-                userName = v.userName
-                userProfile = v.userProfile
+                userName = v.txtUserName
+                userProfile = v.imgUserProfile
                 btnVideoCall = v.btnVideoCall
+                btnChat = v.btnChat
+                chatAndCallLayout = v.chatAndCallLayout
+                chatAndCallLayout?.visibility = View.GONE
                 userItemView = v.userItemView
-
-                btnVideoCall?.visibility = View.GONE
             }
 
         }

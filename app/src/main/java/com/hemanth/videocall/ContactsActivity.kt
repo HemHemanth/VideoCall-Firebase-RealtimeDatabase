@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,6 +19,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.hemanth.videocall.adapter.ContactsAdapter
 import kotlinx.android.synthetic.main.activity_contacts.*
 import kotlinx.android.synthetic.main.contact_item.view.*
 
@@ -27,6 +29,7 @@ class ContactsActivity : AppCompatActivity() {
     private lateinit var userRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var currentUserId: String
+    private var friends: ArrayList<Contacts>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +100,12 @@ class ContactsActivity : AppCompatActivity() {
 
                                 holder.btnVideoCall?.setOnClickListener {
                                     var intent = Intent(this@ContactsActivity, CallingActivity::class.java)
+                                    intent.putExtra("userId", listUserId)
+                                    startActivity(intent)
+                                }
+
+                                holder.btnChat?.setOnClickListener {
+                                    var intent = Intent(this@ContactsActivity, MessagingActivity::class.java)
                                     intent.putExtra("userId", listUserId)
                                     startActivity(intent)
                                 }
@@ -198,12 +207,15 @@ class ContactsActivity : AppCompatActivity() {
             var userName: TextView? = null
             var userProfile: ImageView? = null
             var btnVideoCall: Button? = null
+            var btnChat: Button? = null
 
             init {
-                userName = v.userName
-                userProfile = v.userProfile
+                userName = v.txtUserName
+                userProfile = v.imgUserProfile
                 btnVideoCall = v.btnVideoCall
+                btnChat = v.btnChat
             }
+
         }
     }
 }

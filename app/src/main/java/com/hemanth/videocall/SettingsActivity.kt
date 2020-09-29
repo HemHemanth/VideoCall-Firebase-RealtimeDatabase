@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_settings.*
 class SettingsActivity : AppCompatActivity() {
     private var imageUri: Uri? = null
     private var downloadUri: String? = null
+    private lateinit var currentUserId: String
     private lateinit var userProfileImageRef: StorageReference
     private lateinit var userRef: DatabaseReference
     private lateinit var progressDialog: ProgressDialog
@@ -28,6 +29,8 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
 
         progressDialog = ProgressDialog((this))
+
+        currentUserId = FirebaseAuth.getInstance().currentUser?.uid.toString()
         userProfileImageRef = FirebaseStorage.getInstance().reference.child("image")
         userRef = FirebaseDatabase.getInstance().reference.child("Users")
         retriveUserInfo()
@@ -78,18 +81,15 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             val uploadTask = imageUri?.let { filePath?.putFile(it) }
-            uploadTask?.continueWithTask(object: Continuation<UploadTask.TaskSnapshot, Task<Uri>> {
-                override fun then(task: Task<UploadTask.TaskSnapshot>): Task<Uri> {
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            throw  it
-                        }
+            uploadTask?.continueWithTask { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw  it
                     }
-                    downloadUri = filePath?.downloadUrl.toString()
-                    return  filePath?.downloadUrl!!
                 }
-
-            })?.addOnCompleteListener { task ->
+                downloadUri = filePath?.downloadUrl.toString()
+                filePath?.downloadUrl!!
+            }?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     downloadUri = task.result.toString()
 
