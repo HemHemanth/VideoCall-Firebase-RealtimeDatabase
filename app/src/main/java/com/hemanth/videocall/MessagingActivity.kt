@@ -2,13 +2,13 @@ package com.hemanth.videocall
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.hemanth.videocall.adapter.MessageAdapter
 import com.hemanth.videocall.model.Chat
+import com.hemanth.videocall.model.Contacts
 import kotlinx.android.synthetic.main.activity_messaging.*
 
 class MessagingActivity : AppCompatActivity() {
@@ -36,9 +36,10 @@ class MessagingActivity : AppCompatActivity() {
         userRef.child(userId)
             .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    var contact: Contacts? = snapshot.getValue(Contacts::class.java)
-                    var userName = contact?.getName()
-                    var userImage = contact?.getImage()
+                    var contact: Contacts? = snapshot.getValue(
+                        Contacts::class.java)
+                    var userName = contact?.name
+                    var userImage = contact?.image
                     txtUserName.setText(userName)
                     Glide
                         .with(

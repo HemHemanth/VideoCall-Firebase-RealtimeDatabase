@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.hemanth.videocall.Contacts
+import com.hemanth.videocall.model.Contacts
 import com.hemanth.videocall.R
 import kotlinx.android.synthetic.main.contact_item.view.*
 

@@ -51,73 +51,78 @@ class SettingsActivity : AppCompatActivity() {
         val userName = edtUserName.text.toString()
         val userStatus = edtUserStatus.text.toString()
 
-        if (imageUri == null) {
-            userRef.addValueEventListener(object: ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (FirebaseAuth.getInstance().currentUser?.uid?.let { snapshot.child(it).hasChild("image") }!!) {
-                        saveInfoWithoutProfileImage()
-                    } else {
-                        Toast.makeText(this@SettingsActivity, "Please select profile Image", Toast.LENGTH_LONG).show()
+        when {
+            imageUri == null -> {
+                userRef.addValueEventListener(object: ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (FirebaseAuth.getInstance().currentUser?.uid?.let { snapshot.child(it).hasChild("image") }!!) {
+                            saveInfoWithoutProfileImage()
+                        } else {
+                            Toast.makeText(this@SettingsActivity, "Please select profile Image", Toast.LENGTH_LONG).show()
+                        }
                     }
-                }
 
-                override fun onCancelled(error: DatabaseError) {
+                    override fun onCancelled(error: DatabaseError) {
 
-                }
+                    }
 
-            })
-        } else if (userName == "") {
-            Toast.makeText(this, "Please enter User Name", Toast.LENGTH_LONG).show()
-        } else if (userStatus == "") {
-            Toast.makeText(this, "Please enter User Status", Toast.LENGTH_LONG).show()
-        } else {
-            progressDialog.setTitle("Account Settings")
-            progressDialog.setMessage("Please Wait...")
-            progressDialog.show()
-            val filePath: StorageReference? = FirebaseAuth.getInstance().currentUser?.uid?.let {
-                userProfileImageRef.child(
-                    it
-                )
+                })
             }
-
-            val uploadTask = imageUri?.let { filePath?.putFile(it) }
-            uploadTask?.continueWithTask { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let {
-                        throw  it
-                    }
+            userName == "" -> {
+                Toast.makeText(this, "Please enter User Name", Toast.LENGTH_LONG).show()
+            }
+            userStatus == "" -> {
+                Toast.makeText(this, "Please enter User Status", Toast.LENGTH_LONG).show()
+            }
+            else -> {
+                progressDialog.setTitle("Account Settings")
+                progressDialog.setMessage("Please Wait...")
+                progressDialog.show()
+                val filePath: StorageReference? = FirebaseAuth.getInstance().currentUser?.uid?.let {
+                    userProfileImageRef.child(
+                        it
+                    )
                 }
-                downloadUri = filePath?.downloadUrl.toString()
-                filePath?.downloadUrl!!
-            }?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    downloadUri = task.result.toString()
 
-                    var profileMap: HashMap<String, Any> = HashMap()
-                    FirebaseAuth.getInstance().currentUser?.uid?.let {
-                        profileMap.put(
-                            "uid",
-                            it
-                        )
+                val uploadTask = imageUri?.let { filePath?.putFile(it) }
+                uploadTask?.continueWithTask { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw  it
+                        }
                     }
-                    profileMap.put("name", userName)
-                    profileMap.put("status", userStatus)
-                    profileMap.put("image", downloadUri!!)
+                    downloadUri = filePath?.downloadUrl.toString()
+                    filePath?.downloadUrl!!
+                }?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        downloadUri = task.result.toString()
 
-                    FirebaseAuth.getInstance().currentUser?.uid?.let {
-                        userRef.child(it).updateChildren(profileMap).addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                progressDialog.dismiss()
-                                var intent =
-                                    Intent(this@SettingsActivity, ContactsActivity::class.java)
-                                startActivity(intent)
-                                finish()
+                        var profileMap: HashMap<String, Any> = HashMap()
+                        FirebaseAuth.getInstance().currentUser?.uid?.let {
+                            profileMap.put(
+                                "uid",
+                                it
+                            )
+                        }
+                        profileMap.put("name", userName)
+                        profileMap.put("status", userStatus)
+                        profileMap.put("image", downloadUri!!)
 
-                                Toast.makeText(
-                                    this@SettingsActivity,
-                                    "Profile has been updated",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                        FirebaseAuth.getInstance().currentUser?.uid?.let {
+                            userRef.child(it).updateChildren(profileMap).addOnCompleteListener {
+                                if (it.isSuccessful) {
+                                    progressDialog.dismiss()
+                                    var intent =
+                                        Intent(this@SettingsActivity, ContactsActivity::class.java)
+                                    startActivity(intent)
+                                    finish()
+
+                                    Toast.makeText(
+                                        this@SettingsActivity,
+                                        "Profile has been updated",
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                }
                             }
                         }
                     }

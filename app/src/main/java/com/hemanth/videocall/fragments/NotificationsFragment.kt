@@ -1,27 +1,29 @@
-package com.hemanth.videocall
+package com.hemanth.videocall.fragments
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.hemanth.videocall.model.Contacts
-import kotlinx.android.synthetic.main.activity_notifications.*
-import kotlinx.android.synthetic.main.find_people_item.view.*
+import com.hemanth.videocall.NotificationsActivity
+import com.hemanth.videocall.R
+import kotlinx.android.synthetic.main.fragment_notifications.*
 
-class NotificationsActivity : AppCompatActivity() {
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
+
+class NotificationsFragment : Fragment() {
+    private var param1: String? = null
+    private var param2: String? = null
+
     private lateinit var friendRequestsRef: DatabaseReference
     private lateinit var contactsRef: DatabaseReference
     private lateinit var usersRef: DatabaseReference
@@ -31,8 +33,21 @@ class NotificationsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notifications)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_notifications, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         friendRequestsRef = FirebaseDatabase.getInstance().reference.child("Friend Requests")
         contactsRef = FirebaseDatabase.getInstance().reference.child("Contacts")
         usersRef = FirebaseDatabase.getInstance().reference.child("Users")
@@ -52,11 +67,11 @@ class NotificationsActivity : AppCompatActivity() {
                 Contacts::class.java)
             .build()
 
-        var firebaseRecyclerAdapter = object: FirebaseRecyclerAdapter<Contacts, NotificationsViewHolder>(options) {
+        var firebaseRecyclerAdapter = object: FirebaseRecyclerAdapter<Contacts, NotificationsActivity.Companion.NotificationsViewHolder>(options) {
             override fun onCreateViewHolder(
                 parent: ViewGroup,
                 viewType: Int
-            ): NotificationsViewHolder {
+            ): NotificationsActivity.Companion.NotificationsViewHolder {
                 var view = LayoutInflater
                     .from(
                         parent.context
@@ -67,11 +82,11 @@ class NotificationsActivity : AppCompatActivity() {
                         false
                     )
 
-                return NotificationsViewHolder(view)
+                return NotificationsActivity.Companion.NotificationsViewHolder(view)
             }
 
             override fun onBindViewHolder(
-                holder: NotificationsViewHolder,
+                holder: NotificationsActivity.Companion.NotificationsViewHolder,
                 position: Int,
                 contacts: Contacts
             ) {
@@ -89,22 +104,25 @@ class NotificationsActivity : AppCompatActivity() {
                                 holder.accept?.visibility = View.VISIBLE
                                 holder.decline?.visibility = View.VISIBLE
 
-                                usersRef.child(listUserId!!).addValueEventListener(object: ValueEventListener {
+                                usersRef.child(listUserId!!).addValueEventListener(object:
+                                    ValueEventListener {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         if (snapshot.hasChild("image")) {
                                             var imageStr = snapshot.child("image").value.toString()
 
                                             holder.userProfile?.let {
-                                                Glide
-                                                    .with(
-                                                        this@NotificationsActivity
-                                                    )
-                                                    .load(
-                                                        imageStr
-                                                    )
-                                                    .into(
-                                                        it
-                                                    )
+                                                context?.let { it1 ->
+                                                    Glide
+                                                        .with(
+                                                            it1
+                                                        )
+                                                        .load(
+                                                            imageStr
+                                                        )
+                                                        .into(
+                                                            it
+                                                        )
+                                                }
                                             }
                                             val nameStr = snapshot.child("name").value.toString()
                                             holder.userName?.setText(nameStr)
@@ -139,7 +157,7 @@ class NotificationsActivity : AppCompatActivity() {
 
         recyclerNotifications.apply {
             adapter = firebaseRecyclerAdapter
-            layoutManager = LinearLayoutManager(this@NotificationsActivity)
+            layoutManager = LinearLayoutManager(context)
             firebaseRecyclerAdapter.startListening()
         }
     }
@@ -194,7 +212,7 @@ class NotificationsActivity : AppCompatActivity() {
                                                 .removeValue()
                                                 .addOnCompleteListener {
                                                     if (it.isSuccessful) {
-                                                        Toast.makeText(this, "User Added Successfully", Toast.LENGTH_LONG).show()
+                                                        Toast.makeText(context, "User Added Successfully", Toast.LENGTH_LONG).show()
                                                     }
                                                 }
                                         }
@@ -227,7 +245,7 @@ class NotificationsActivity : AppCompatActivity() {
                         .removeValue()
                         .addOnCompleteListener {
                             if (it.isSuccessful) {
-                                Toast.makeText(this, "Friend Request Cancelled", Toast.LENGTH_LONG).show()
+                                Toast.makeText(context, "Friend Request Cancelled", Toast.LENGTH_LONG).show()
                             }
                         }
                 }
@@ -236,21 +254,13 @@ class NotificationsActivity : AppCompatActivity() {
 
 
     companion object {
-        class NotificationsViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-            var userName: TextView? = null
-            var userProfile: ImageView? = null
-            var accept: Button? = null
-            var decline: Button? = null
-            var userItemView: CardView? = null
-
-            init {
-                userName = v.userName
-                userProfile = v.userProfile
-                accept = v.accept
-                decline = v.decline
-                userItemView = v.cardView
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            NotificationsFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
             }
-
-        }
     }
 }

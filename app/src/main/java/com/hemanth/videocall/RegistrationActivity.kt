@@ -40,9 +40,7 @@ class RegistrationActivity : AppCompatActivity() {
 
                 submit.text = "Submit"
 
-                txtEnterMobileNumber.visibility = View.GONE
-                txtMobileNumber.visibility = View.GONE
-                verificationCode.visibility = View.VISIBLE
+                edtVerificationCode.visibility = View.VISIBLE
 
                 Toast.makeText(this@RegistrationActivity, "Code has been sent", Toast.LENGTH_LONG).show()
 
@@ -52,7 +50,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         submit.setOnClickListener {
             if (submit.text == "Submit") {
-                var verificationCode = verificationCode.text.toString()
+                var verificationCode = edtVerificationCode.text.toString()
 
                 if (verificationCode == "") {
                     Toast.makeText(this, "Please Enter Verification code", Toast.LENGTH_LONG).show()
@@ -64,7 +62,7 @@ class RegistrationActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                var phoneNumber = txtMobileNumber.text.toString()
+                var phoneNumber = "+91${edtMobileNumber.text.toString()}"
                 PhoneAuthProvider.getInstance().verifyPhoneNumber(
                     phoneNumber, // Phone number to verify
                     60, // Timeout duration
@@ -81,7 +79,7 @@ class RegistrationActivity : AppCompatActivity() {
         var firebaseUser = FirebaseAuth.getInstance().currentUser
 
         if (firebaseUser != null) {
-            var intent = Intent(this, ContactsActivity::class.java)
+            var intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -107,7 +105,7 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     private fun sendUserToMainActivity() {
-        var intent = Intent(this, ContactsActivity::class.java)
+        var intent = Intent(this, HomeActivity::class.java)
         startActivity(intent)
     }
 }

@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    android:id="@+id/userItemView"
+<androidx.cardview.widget.CardView android:id="@+id/userItemView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="20dp"
     android:layout_marginTop="20dp"
     android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp">
+    android:layout_marginRight="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <ImageView
+        <com.hemanth.videocall.views.CircularImageView
             android:id="@+id/imgUserProfile"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/user_profile"
+            android:layout_margin="10dp"
+            app:civ_border_color="#ffffff"
+            app:civ_border_width="2dp"
             />
 
         <TextView
@@ -28,41 +31,55 @@
             android:text="User Name"
             android:textSize="18sp"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/imgUserProfile"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/imgUserProfile"
+            android:layout_marginTop="10dp"
             android:textColor="@android:color/holo_purple"
             />
 
-        <LinearLayout
-            android:id="@+id/chatAndCallLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/btnChat"
+            android:layout_width="90dp"
+            android:layout_height="43dp"
+            android:layout_marginRight="70dp"
+            android:drawableTop="@drawable/chat"
+            android:layout_toRightOf="@id/imgUserProfile"
             android:layout_below="@id/txtUserName"
-            android:gravity="center"
-            >
-            <Button
-                android:id="@+id/btnChat"
-                android:layout_width="90dp"
-                android:layout_height="43dp"
-                android:layout_marginRight="70dp"
-                android:drawableTop="@drawable/chat"
-                android:background="@color/colorAccent"
-                android:padding="10dp"
-                android:layout_marginTop="5dp"
-                />
+            android:background="@color/colorAccent"
+            android:paddingTop="10dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="10dp"
+            />
 
         <Button
             android:id="@+id/btnVideoCall"
             android:layout_width="90dp"
             android:layout_height="43dp"
-            android:layout_centerHorizontal="true"
             android:drawableTop="@drawable/video_call"
             android:background="@android:color/holo_blue_dark"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/txtUserName"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
             />
 
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnAddFriend"
+            android:layout_width="wrap_content"
+            android:layout_height="43dp"
+            android:background="@android:color/holo_blue_dark"
+            android:layout_below="@id/txtUserName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:text="Add Friend"
+            android:textSize="16sp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"
+            android:visibility="gone"
+            />
 
     </RelativeLayout>
 
